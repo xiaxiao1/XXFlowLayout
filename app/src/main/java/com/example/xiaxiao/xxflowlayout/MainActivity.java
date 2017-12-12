@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         size=23;
         add();
     }
+    int line=20;
+    public void changeLine(View view) {
+        xxFlowLayout.setLineSpace(line);
+        line = line + 10;
+    }
 
     public void add() {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

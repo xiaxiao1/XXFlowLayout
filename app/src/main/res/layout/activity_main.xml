@@ -28,21 +28,27 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="add View"
+            android:text="addView"
 
             android:onClick="addView"
             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="middle View"
+            android:text="midView"
             android:onClick="addMiddleView"
             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="big View"
+            android:text="bigView"
             android:onClick="addBigView"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="line"
+            android:onClick="changeLine"
             />
     </LinearLayout>
 

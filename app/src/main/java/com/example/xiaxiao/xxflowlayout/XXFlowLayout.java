@@ -99,6 +99,7 @@ public class XXFlowLayout extends RelativeLayout{
 
 
 
+
     }
 
     /**
@@ -122,7 +123,7 @@ public class XXFlowLayout extends RelativeLayout{
      * @param currentDeleteIndex 当前删除的view的下标
      * @return  the index of the last LineGroup that will not be resetted.
      */
-    public int getCurrentDeleteLine(int currentDeleteIndex) {
+    private int getCurrentDeleteLine(int currentDeleteIndex) {
         //因为下标从0开始，哈哈
         int all=-1;
         int lastLineIndex=0;
@@ -149,7 +150,10 @@ public class XXFlowLayout extends RelativeLayout{
             //将当前删除的view所在行及之后的所有行包含的view加入重新计算的集合
             //注意：此时，已被删除的view也加入了进来
             for (int j=lastLineIndex+1;j<lines.size();j++) {
-                currentChilds.addAll(lines.get(j).childs);
+                for (View v:lines.get(j).childs) {
+//                    ((LayoutParams)v.getLayoutParams()).topMargin=0;
+                    currentChilds.add(v);
+                }
                 deletes.add(lines.get(j));
             }
             //把已删除的删除掉，帮你挥一挥衣袖，别留下一片云彩
@@ -159,6 +163,16 @@ public class XXFlowLayout extends RelativeLayout{
         }
         //集合清空，复用啊
         deletes.clear();
+        /**
+         * 其实省了的只是被删除view之后的各view的相对关系的计算，也就是layoutparams的设置
+         * 删除view会调用requestLayout()方法，会对所有的children都重新layout，然后draw.
+         * 只有设置行间距的地方出现了数据的累加操作，这样，删除时，其他view的顶部高度就会异常（会不断累加），所以这里先全部清空。
+         */
+       /* for (View v:allChildren) {
+            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            p.topMargin=0;
+            v.setLayoutParams(p);
+        }*/
         return lastLineIndex;
     }
 
@@ -201,7 +215,7 @@ public class XXFlowLayout extends RelativeLayout{
      * 对当前view进行流式布局安排
      * @param child the new added view
      */
-    public void addFlowedView( View child) {
+    private void addFlowedView( View child) {
         log("------------------------------addFlowedView");
         if (lastLine==null) {
             //如果最后一行是null,说明之前的行都装满了，那就再创建一行
@@ -232,6 +246,7 @@ public class XXFlowLayout extends RelativeLayout{
      */
     public void setVerticalAlignType(int type) {
         this.verticalAlignType = type;
+        reFlow();
     }
 
     /**
@@ -240,21 +255,42 @@ public class XXFlowLayout extends RelativeLayout{
      */
     public void setHorizontalSpace(int horizontalSpace) {
         this.horizontalSpace = horizontalSpace;
+        reFlow();
     }
 
-    //设置是否是水平均匀分布
+    /**
+     *设置是否是水平均匀分布
+     */
     public void setHorizontalUniformed(boolean uniformed) {
         this.horizontalUniformed = uniformed;
+        reFlow();
     }
 
+    /**
+     * 设置行间距
+     * @param lineSpace
+     */
     public void setLineSpace(int lineSpace) {
         this.lineSpace = lineSpace;
+        reFlow();
     }
 
-    public void log(String msg) {
+    /**
+     * 排列参数变化，清空view之间的参考关系，重新flow
+     */
+    private void reFlow() {
+        lines.clear();
+        lastLine=null;
+        currentChilds.clear();
+        currentChilds.addAll(allChildren);
+//        invalidate();
+        requestLayout();
+    }
+
+    private void log(String msg) {
         Log.i("xx",msg);
     }
-    public void log(int msg) {
+    private void log(int msg) {
         Log.i("xx",msg+"");
     }
 
@@ -299,7 +335,8 @@ public class XXFlowLayout extends RelativeLayout{
         public int getNewAddedWidth(View child) {
             params = (RelativeLayout.LayoutParams) child.getLayoutParams();
             int w = params.leftMargin + params.rightMargin + child.getMeasuredWidth()+horizontalSpace;
-            int h = params.bottomMargin + params.topMargin + child.getMeasuredHeight();
+//            int h = params.bottomMargin + params.topMargin + child.getMeasuredHeight();
+            int h = child.getMeasuredHeight();
             //更新行的最大高度
             if (maxHeight<h) {
                 maxHeight=h;
@@ -385,7 +422,10 @@ public class XXFlowLayout extends RelativeLayout{
             int space = (parentWidth - totalWidth) / childs.size()/2;
             for (View c:childs) {
                 int h=this.maxHeight-c.getMeasuredHeight();
-                if (h > 0) {
+                if (h<0) {
+                    h=0;
+                }
+//                if (h > 0) {
                     if (verticalAlignType == VERTICAL_ALIGN_BASE_BOTTOM) {
                         //竖直底部对齐
                         baseLineBottom(c, h);
@@ -396,8 +436,8 @@ public class XXFlowLayout extends RelativeLayout{
                         //竖直顶部对齐
                         normalAlign(c, h);
                     }
-                }
-                setLineSpace(c);
+//                }
+//                setLineSpace(c);
                 //水平方向平铺
                 horizontalUniform(c,space);
             }
@@ -405,18 +445,20 @@ public class XXFlowLayout extends RelativeLayout{
 
         public void baseLineBottom(View child,int addHeight) {
             RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
-            params.topMargin =addHeight;
+//            params.topMargin =addHeight;
+            params.topMargin =addHeight+lineSpace;
             child.setLayoutParams(params);
         }
 
         public void centerVertical(View child, int addHeight) {
             RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
-            params.topMargin = addHeight/2;
+            params.topMargin = addHeight/2+lineSpace;
             params.bottomMargin =  addHeight/2;
             child.setLayoutParams(params);
         }
         public void normalAlign(View child, int addHeight) {
             RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
+            params.topMargin =addHeight+lineSpace;
             params.bottomMargin = addHeight;
             child.setLayoutParams(params);
         }
