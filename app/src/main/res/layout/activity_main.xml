@@ -64,7 +64,7 @@
         android:id="@+id/fl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2189aa"
+        android:background="#e4e4e4"
 
         >
 

@@ -37,7 +37,7 @@ public class XXFlowLayout extends RelativeLayout{
      */
     int verticalAlignType=1;
     //每一行水平间隔大小
-    int horizontalSpace=10;
+    int horizontalSpace=40;
     //行间距
     int lineSpace=40;
     //是否水平均匀平铺
@@ -168,11 +168,8 @@ public class XXFlowLayout extends RelativeLayout{
          * 删除view会调用requestLayout()方法，会对所有的children都重新layout，然后draw.
          * 只有设置行间距的地方出现了数据的累加操作，这样，删除时，其他view的顶部高度就会异常（会不断累加），所以这里先全部清空。
          */
-       /* for (View v:allChildren) {
-            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) v.getLayoutParams();
-            p.topMargin=0;
-            v.setLayoutParams(p);
-        }*/
+        //唉，翻来覆去，还是不得不选择这种啰嗦的方式，清空所有的参数，
+        clearAllParams();
         return lastLineIndex;
     }
 
@@ -283,8 +280,20 @@ public class XXFlowLayout extends RelativeLayout{
         lastLine=null;
         currentChilds.clear();
         currentChilds.addAll(allChildren);
-//        invalidate();
+        clearAllParams();
         requestLayout();
+    }
+
+    private void clearAllParams() {
+        for (View v:allChildren) {
+            //唉，翻来覆去，还是不得不选择这种啰嗦的方式，清空所有的参数，
+            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            p.topMargin=0;
+            p.bottomMargin=0;
+            p.leftMargin=0;
+            p.rightMargin=0;
+            v.setLayoutParams(p);
+        }
     }
 
     private void log(String msg) {

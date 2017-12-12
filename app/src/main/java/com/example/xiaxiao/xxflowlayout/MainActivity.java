@@ -1,5 +1,6 @@
 package com.example.xiaxiao.xxflowlayout;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,13 +15,15 @@ public class MainActivity extends AppCompatActivity {
     XXFlowLayout xxFlowLayout;
     ScrollView scrollView;
     int size=20;
-    String msg = "春花秋月何时了，往事知多少。小楼昨夜又东风，";
+    String msg = "春花秋月何时了，往事知多少。小楼昨夜又东风，故国不堪回首明月中。雕栏玉砌应犹在，只是朱颜改，问君能有几多愁，恰似一江春水向东流。";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         editText = (EditText) findViewById(R.id.et);
         xxFlowLayout = (XXFlowLayout) findViewById(R.id.fl);
+        xxFlowLayout.setHorizontalUniformed(true);
+
         scrollView = (ScrollView) findViewById(R.id.sc);
     }
 
@@ -52,11 +55,13 @@ public class MainActivity extends AppCompatActivity {
         String s = editText.getText().toString().trim();
         final TextView t = new TextView(this);
         t.setLayoutParams(params);
-        int a = (int)(Math.random() * 6);
-        t.setText(msg.substring(0,a)+index);
+        int a = (int)(Math.random() * 35);
+        int l = (int)(Math.random() * 5+2);
+        t.setText(msg.substring(a,a+l)+index);
 //        t.setText(" hello "+index);
         index++;
         t.setTextSize(size);
+        t.setTextColor(Color.WHITE);
         t.setBackgroundResource(R.drawable.bg);
         t.setOnClickListener(new View.OnClickListener() {
             @Override
