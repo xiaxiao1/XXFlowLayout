@@ -38,6 +38,8 @@ public class XXFlowLayout extends RelativeLayout{
     int verticalAlignType=1;
     //每一行水平间隔大小
     int horizontalSpace=10;
+    //行间距
+    int lineSpace=40;
     //是否水平均匀平铺
     boolean horizontalUniformed=false;
     //装载所有子View组成的行
@@ -244,6 +246,11 @@ public class XXFlowLayout extends RelativeLayout{
     public void setHorizontalUniformed(boolean uniformed) {
         this.horizontalUniformed = uniformed;
     }
+
+    public void setLineSpace(int lineSpace) {
+        this.lineSpace = lineSpace;
+    }
+
     public void log(String msg) {
         Log.i("xx",msg);
     }
@@ -378,18 +385,19 @@ public class XXFlowLayout extends RelativeLayout{
             int space = (parentWidth - totalWidth) / childs.size()/2;
             for (View c:childs) {
                 int h=this.maxHeight-c.getMeasuredHeight();
-                if (h>0) {
-                    if (verticalAlignType==VERTICAL_ALIGN_BASE_BOTTOM) {
+                if (h > 0) {
+                    if (verticalAlignType == VERTICAL_ALIGN_BASE_BOTTOM) {
                         //竖直底部对齐
-                        baseLineBottom(c,h);
+                        baseLineBottom(c, h);
                     } else if (verticalAlignType == VERTICAL_ALIGN_CENTER) {
                         //竖直居中对齐
-                        centerVertical(c,h);
+                        centerVertical(c, h);
                     } else {
                         //竖直顶部对齐
-                        normalAlign(c,h);
+                        normalAlign(c, h);
                     }
                 }
+                setLineSpace(c);
                 //水平方向平铺
                 horizontalUniform(c,space);
             }
@@ -410,6 +418,16 @@ public class XXFlowLayout extends RelativeLayout{
         public void normalAlign(View child, int addHeight) {
             RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
             params.bottomMargin = addHeight;
+            child.setLayoutParams(params);
+        }
+
+        /**
+         * 设置行间距
+         * @param child
+         */
+        public void setLineSpace(View child) {
+            RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
+            params.topMargin = params.topMargin+lineSpace;
             child.setLayoutParams(params);
         }
 
