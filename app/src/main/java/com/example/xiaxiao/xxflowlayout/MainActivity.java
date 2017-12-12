@@ -26,15 +26,15 @@ public class MainActivity extends AppCompatActivity {
 
     int index=0;
     public void addView(View view) {
-       size=23;
+       size=13;
         add();
     }
     public void addBigView(View view) {
-        size=53;
+        size=33;
         add();
     }
     public void addMiddleView(View view) {
-        size=33;
+        size=23;
         add();
     }
 
@@ -43,12 +43,13 @@ public class MainActivity extends AppCompatActivity {
         params.leftMargin=4;
         params.rightMargin=2;
         params.topMargin =6;
+        params.bottomMargin =6;
         String s = editText.getText().toString().trim();
         final TextView t = new TextView(this);
         t.setLayoutParams(params);
         int a = (int)(Math.random() * 6);
-//        t.setText(msg.substring(0,a)+index);
-        t.setText(" hello "+index);
+        t.setText(msg.substring(0,a)+index);
+//        t.setText(" hello "+index);
         index++;
         t.setTextSize(size);
         t.setBackgroundResource(R.drawable.bg);
