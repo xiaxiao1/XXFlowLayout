@@ -26,37 +26,82 @@
         android:layout_alignParentTop="true"
         >
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="addView"
-
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="+小"
+            android:textSize="12sp"
             android:onClick="addView"
             />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="midView"
+            android:text="+中"
+            android:textSize="12sp"
             android:onClick="addMiddleView"
             />
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="bigView"
+            android:text="+大"
+            android:textSize="12sp"
             android:onClick="addBigView"
             />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="line"
+            android:text="+行间距"
             android:onClick="changeLine"
             />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="+字间距"
+            android:onClick="wordSpace"
+            />
     </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/bottom_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/et"
+        android:layout_alignParentBottom="true"
+        >
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="垂直居中"
+            android:textSize="12sp"
+            android:onClick="center"
+            />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:text="垂直顶部"
+            android:textSize="12sp"
+            android:onClick="top"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="垂直底部对齐"
+            android:textSize="12sp"
+            android:onClick="bottom"
+            />
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:text="水平平铺"
+            android:textSize="12sp"
+            android:onClick="uniform"
+            />
+    </LinearLayout>
     <ScrollView
         android:id="@+id/sc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/ll"
+        android:layout_above="@id/bottom_ll"
         >
 
 
@@ -70,4 +115,5 @@
 
     </com.example.xiaxiao.xxflowlayout.XXFlowLayout>
     </ScrollView>
+
 </RelativeLayout>

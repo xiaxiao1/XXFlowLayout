@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     EditText editText;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editText = (EditText) findViewById(R.id.et);
         xxFlowLayout = (XXFlowLayout) findViewById(R.id.fl);
-        xxFlowLayout.setHorizontalUniformed(true);
+//        xxFlowLayout.setHorizontalUniformed(true);
 
         scrollView = (ScrollView) findViewById(R.id.sc);
     }
@@ -44,6 +45,25 @@ public class MainActivity extends AppCompatActivity {
     public void changeLine(View view) {
         xxFlowLayout.setLineSpace(line);
         line = line + 10;
+    }
+    public void top(View view) {
+        xxFlowLayout.setVerticalAlignType(XXFlowLayout.VERTICAL_ALIGN_TOP);
+    }
+    public void center(View view) {
+        xxFlowLayout.setVerticalAlignType(XXFlowLayout.VERTICAL_ALIGN_CENTER);
+    }
+    public void bottom(View view) {
+        xxFlowLayout.setVerticalAlignType(XXFlowLayout.VERTICAL_ALIGN_BASE_BOTTOM);
+    }
+    boolean uniform=false;
+    public void uniform(View view) {
+        xxFlowLayout.setHorizontalUniformed(uniform);
+        uniform = !uniform;
+    }
+    int ws=10;
+    public void wordSpace(View view) {
+        xxFlowLayout.setHorizontalSpace(ws);
+        ws+=10;
     }
 
     public void add() {
@@ -67,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 xxFlowLayout.removeView(t);
+                Toast.makeText(MainActivity.this,"删除了 "+t.getText().toString(),Toast.LENGTH_SHORT).show();
             }
         });
         xxFlowLayout.addView(t);

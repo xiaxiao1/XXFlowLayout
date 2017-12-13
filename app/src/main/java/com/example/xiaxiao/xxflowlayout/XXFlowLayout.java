@@ -26,7 +26,7 @@ public class XXFlowLayout extends RelativeLayout{
     * 三种竖直对齐方式
     * */
     //正常模式，也就是顶部对齐
-    public static final int VERTICAL_ALIGN_NORMAL=0;
+    public static final int VERTICAL_ALIGN_TOP=0;
     //竖直居中对齐
     public static final int VERTICAL_ALIGN_CENTER=1;
     //底部对齐
@@ -35,11 +35,11 @@ public class XXFlowLayout extends RelativeLayout{
     /**
      * 对齐方式，通过 {@link #setVerticalAlignType(int) }方法设置
      */
-    int verticalAlignType=1;
+    int verticalAlignType=0;
     //每一行水平间隔大小
-    int horizontalSpace=40;
+    int horizontalSpace=10;
     //行间距
-    int lineSpace=40;
+    int lineSpace=10;
     //是否水平均匀平铺
     boolean horizontalUniformed=false;
     //装载所有子View组成的行
@@ -239,7 +239,7 @@ public class XXFlowLayout extends RelativeLayout{
 
     /**
      * 设置垂直布局方式
-     * @param type 参数来自 {@link #VERTICAL_ALIGN_NORMAL},{@link #VERTICAL_ALIGN_BASE_BOTTOM}, {@link #VERTICAL_ALIGN_CENTER}
+     * @param type 参数来自 {@link #VERTICAL_ALIGN_TOP},{@link #VERTICAL_ALIGN_BASE_BOTTOM}, {@link #VERTICAL_ALIGN_CENTER}
      */
     public void setVerticalAlignType(int type) {
         this.verticalAlignType = type;
@@ -259,6 +259,9 @@ public class XXFlowLayout extends RelativeLayout{
      *设置是否是水平均匀分布
      */
     public void setHorizontalUniformed(boolean uniformed) {
+        if (this.horizontalUniformed==uniformed) {
+            return;
+        }
         this.horizontalUniformed = uniformed;
         reFlow();
     }
@@ -467,7 +470,7 @@ public class XXFlowLayout extends RelativeLayout{
         }
         public void normalAlign(View child, int addHeight) {
             RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
-            params.topMargin =addHeight+lineSpace;
+            params.topMargin =lineSpace;
             params.bottomMargin = addHeight;
             child.setLayoutParams(params);
         }
