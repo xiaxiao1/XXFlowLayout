@@ -242,6 +242,9 @@ public class XXFlowLayout extends RelativeLayout{
      * @param type 参数来自 {@link #VERTICAL_ALIGN_TOP},{@link #VERTICAL_ALIGN_BASE_BOTTOM}, {@link #VERTICAL_ALIGN_CENTER}
      */
     public void setVerticalAlignType(int type) {
+        if (this.verticalAlignType==type) {
+            return;
+        }
         this.verticalAlignType = type;
         reFlow();
     }
@@ -251,6 +254,9 @@ public class XXFlowLayout extends RelativeLayout{
      * @param horizontalSpace
      */
     public void setHorizontalSpace(int horizontalSpace) {
+        if (this.horizontalSpace==horizontalSpace) {
+            return;
+        }
         this.horizontalSpace = horizontalSpace;
         reFlow();
     }
@@ -271,6 +277,9 @@ public class XXFlowLayout extends RelativeLayout{
      * @param lineSpace
      */
     public void setLineSpace(int lineSpace) {
+        if (this.lineSpace==lineSpace) {
+            return;
+        }
         this.lineSpace = lineSpace;
         reFlow();
     }
@@ -446,7 +455,7 @@ public class XXFlowLayout extends RelativeLayout{
                         centerVertical(c, h);
                     } else {
                         //竖直顶部对齐
-                        normalAlign(c, h);
+                        topAlign(c, h);
                     }
 //                }
 //                setLineSpace(c);
@@ -468,22 +477,22 @@ public class XXFlowLayout extends RelativeLayout{
             params.bottomMargin =  addHeight/2;
             child.setLayoutParams(params);
         }
-        public void normalAlign(View child, int addHeight) {
+        public void topAlign(View child, int addHeight) {
             RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
             params.topMargin =lineSpace;
             params.bottomMargin = addHeight;
             child.setLayoutParams(params);
         }
 
-        /**
+       /* *//**
          * 设置行间距
          * @param child
-         */
+         *//*
         public void setLineSpace(View child) {
             RelativeLayout.LayoutParams params = (LayoutParams) child.getLayoutParams();
             params.topMargin = params.topMargin+lineSpace;
             child.setLayoutParams(params);
-        }
+        }*/
 
         /**
          * 水平均匀平铺
