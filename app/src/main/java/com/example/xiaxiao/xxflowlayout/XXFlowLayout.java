@@ -3,10 +3,12 @@ package com.example.xiaxiao.xxflowlayout;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -56,6 +58,10 @@ public class XXFlowLayout extends RelativeLayout{
      * 当前删除的子View ，看 {@link #onViewRemoved(View)}
      */
     View deleteChild;
+    Rect mTouchFrame;
+    OnChildClickListener mOnChildClickListener;
+    int mClickIndex;
+    int mClickLineIndex;
 
     public XXFlowLayout(Context context) {
         super(context);
@@ -208,6 +214,33 @@ public class XXFlowLayout extends RelativeLayout{
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
+        final int action = event.getAction();
+        if (action == MotionEvent.ACTION_DOWN) {
+            log("----------down");
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            mClickIndex = pointToChild(x, y);
+        }
+       /* if (action==MotionEvent.ACTION_MOVE) {
+            log("----------move");
+        }*/
+        if(action==MotionEvent.ACTION_UP){
+            log("----------up");
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            if (mClickIndex >= 0 && pointToChild(x, y) == mClickIndex) {
+                if (mOnChildClickListener!=null) {
+                    mOnChildClickListener.onClick(allChildren.get(mClickIndex),mClickIndex,mClickLineIndex);
+                    return true;
+                }
+            }
+        }
+        return true;
+    }
+
     /**
      * 对当前view进行流式布局安排
      * @param child the new added view
@@ -315,7 +348,56 @@ public class XXFlowLayout extends RelativeLayout{
         Log.i("xx",msg+"");
     }
 
+    /**
+     * 计算出当前点击的子View的下标
+     * @param x
+     * @param y
+     * @return
+     */
+    private int pointToChild(int x, int y) {
+        Rect frame = mTouchFrame;
+        if (frame == null) {
+            mTouchFrame = new Rect();
+            frame = mTouchFrame;
+        }
+        /*final int count =allChildren.size();
+        for (int i = 0; i<count; i++) {
+            final View child = allChildren.get(i);
+            if (child.getVisibility() == View.VISIBLE) {
+                child.getHitRect(frame);
+                if (frame.contains(x, y)) {
+                    return i;
+                }
+            }
+        }*/
+        int in=0;
+        int l_count = lines.size();
+        for (int i = 0; i<l_count; i++) {
+            LineGroup lineGroup = lines.get(i);
+            int c_count = lineGroup.childs.size();
+            for(int j=0;j<c_count;j++){
+                final View child = lineGroup.childs.get(j);
+                if (child.getVisibility() == View.VISIBLE) {
+                    child.getHitRect(frame);
+                    if (frame.contains(x, y)) {
+                        mClickLineIndex=i;
+                        return in;
+                    }
+                }
+                in++;
+            }
+        }
+        return -1;
+    }
 
+    @Override
+    public void setOnClickListener(OnClickListener onClickListener) {
+        log("this view dose not support the listener");
+    }
+
+    public void setOnChildClickListener(OnChildClickListener onChildClickListener) {
+        this.mOnChildClickListener = onChildClickListener;
+    }
 
 
     class LineGroup{
@@ -572,5 +654,8 @@ public class XXFlowLayout extends RelativeLayout{
 
     }
 
+    public interface OnChildClickListener{
+        public void onClick(View view, int index, int line);
+    }
 
 }
