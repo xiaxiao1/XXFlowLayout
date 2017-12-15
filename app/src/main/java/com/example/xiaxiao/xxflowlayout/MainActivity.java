@@ -1,5 +1,6 @@
 package com.example.xiaxiao.xxflowlayout;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         xxFlowLayout.addView(item2);
+    }
+    public void goFlowListActivity(View view) {
+        startActivity(new Intent(this,FlowListViewActivity.class));
     }
     public void addBigView(View view) {
         size=33;

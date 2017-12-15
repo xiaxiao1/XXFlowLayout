@@ -340,6 +340,14 @@ public class XXFlowLayout extends RelativeLayout{
             v.setLayoutParams(p);
         }
     }
+    public void deepClear() {
+        lines.clear();
+        lines = new ArrayList<>();
+        allChildren.clear();
+        currentChilds.clear();
+        lastLine=null;
+    }
+
 
     private void log(String msg) {
         Log.i("xx",msg);

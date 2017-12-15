@@ -60,6 +60,48 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@id/et"
+        android:layout_below="@id/ll"
+        >
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="go2"
+            android:textSize="12sp"
+            android:onClick="goFlowListActivity"
+            />
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="+中"
+            android:textSize="12sp"
+            android:onClick="addMiddleView"
+            />
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="+大"
+            android:textSize="12sp"
+            android:onClick="addBigView"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="+行间距"
+            android:onClick="changeLine"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="+字间距"
+            android:onClick="wordSpace"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/bottom_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,7 +142,7 @@
         android:id="@+id/sc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/ll"
+        android:layout_below="@id/ll_2"
         android:layout_above="@id/bottom_ll"
         >
 
