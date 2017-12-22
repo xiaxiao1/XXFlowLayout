@@ -38,6 +38,7 @@ public class FlowListViewActivity extends AppCompatActivity {
     public void clear(View view) {
 //        xxFlowAsListView.deepClear();
         xxFlowAsListView.removeAllViews();
+        datas.clear();
 
     }
 

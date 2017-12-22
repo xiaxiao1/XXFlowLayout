@@ -102,10 +102,14 @@ public class XXFlowLayout extends RelativeLayout{
         //通过下标定位到从哪一行开始重新计算此后的各子View之间的关系。
         //这一步主要是为了提高性能，被删除的view所在行的之前的行，他们装载的子View的关系是不需要变化的。避免了重复计算
         getCurrentDeleteLine(i);
+    }
 
-
-
-
+    @Override
+    public void removeAllViews() {
+        allChildren.clear();
+        lines.clear();
+        lastLine=null;
+        super.removeAllViews();
     }
 
     /**
